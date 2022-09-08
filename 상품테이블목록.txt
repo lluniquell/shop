@@ -1,0 +1,16 @@
+상품테이블 product
+
+id int......
+pcode  char(10)                     :  p010101001
+pimg varchar(100)       : 메인이미지
+cimg varchar(100)       : 제품내용이미지
+title   varchar(100)                        : 상품제목
+price    int                         : 가격
+made   varchar(50)                        : 제조회사
+halin     int                       :  할인률
+juk        int                   : 적립포인트
+su         int                   : 상품수량
+baesong int                 : 배송비
+baeday  int                  : 오늘기준 배송일
+pstar      int                  : 별점
+

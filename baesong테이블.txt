@@ -1,0 +1,10 @@
+create table baesong(
+    -> id int auto_increment primary key,
+    -> name char(10),
+    -> zip char(5),
+    -> juso varchar(100),
+    -> juso_etc varchar(100),
+    -> phone char(20),
+    -> userid char(20),
+    -> chuga int,
+    -> gibon int default 0);

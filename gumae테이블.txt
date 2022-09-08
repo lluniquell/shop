@@ -1,0 +1,14 @@
+ create table gumae(
+    -> id int auto_increment primary key,
+    -> pcode char(10),
+    -> su int,
+    -> userid char(20),
+    -> bae_id int,
+    -> chong int,
+    -> sudan int,
+    -> bank int,
+    -> card int,
+    -> gigan int,
+    -> phone int,
+    -> writeday date,
+    -> state int);

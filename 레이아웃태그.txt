@@ -1,0 +1,11 @@
+1층  id=first                간단 메세지                  <div id="message">
+2층  id =second      로고 , 로그인,회원가입    <header> </header>
+3층  id=third            메뉴등등                         <nav> </nav>
+<section>  : 윗부분과 아랫부분을 제외한 부분을 section으로 묶는다
+  4층  id=fourth           그림슬라이드                    
+    <article> </article>  : section안에 여러개의 내용을 출력(내용당 하나의 article)
+</section>
+id=footer                        사이트관련정보          <footer> </footer>
+
+
+
