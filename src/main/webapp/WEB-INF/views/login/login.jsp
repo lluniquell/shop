@@ -126,8 +126,8 @@
   <section>
     <form method="post" action="login_ok">
      <h2> 로 그 인 </h2> 
-     <div> <input type="text" name="userid" placeholder="아이디" value="channy"> </div>
-     <div> <input type="password" name="pwd" placeholder="비밀번호" value="1111">
+     <div> <input type="text" name="userid" placeholder="아이디"> </div>
+     <div> <input type="password" name="pwd" placeholder="비밀번호">
        <c:if test="${err == 1}"> 
            <br> <span style="color:red;font-size:12px;">아이디 혹은 비밀번호가 맞지 않습니다. </span>
        </c:if>

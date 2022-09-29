@@ -1,5 +1,7 @@
 package kr.co.shop.service;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
@@ -19,12 +21,14 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import kr.co.shop.mapper.ProductMapper;
 import kr.co.shop.vo.BaesongVO;
+import kr.co.shop.vo.CartVO;
 import kr.co.shop.vo.DaeVO;
 import kr.co.shop.vo.GumaeVO;
 import kr.co.shop.vo.JungVO;
 import kr.co.shop.vo.MemberVO;
 import kr.co.shop.vo.ProductVO;
 import kr.co.shop.vo.ProductViewVO;
+import kr.co.shop.vo.QuestionVO;
 import kr.co.shop.vo.SoVO;
 
 @Service
@@ -131,6 +135,21 @@ public class ProductServiceImpl implements ProductService{
 		model.addAttribute("list",list);
 		return "/product/pro_list";
 	}
+	
+	
+	@Override
+	public String index(Model model) {
+		ArrayList<ProductVO> nlist=mapper.pro_list_new();
+		model.addAttribute("nlist",nlist);
+		ArrayList<ProductVO> mlist=mapper.pro_list_manysell();
+		model.addAttribute("mlist",mlist);
+		ArrayList<ProductVO> slist=mapper.pro_list_sale();
+		model.addAttribute("slist",slist);
+		return "/main/index";
+	}
+	
+
+	
 
 	@Override
 	public String pro_content(HttpSession session,HttpServletRequest request, Model model) {
@@ -160,6 +179,15 @@ public class ProductServiceImpl implements ProductService{
 			}
 		}
 		model.addAttribute("wishcnt",wishcnt);
+		
+		//상품문의를 읽어서 전달
+		ArrayList<QuestionVO> qlist=mapper.get_question(pcode);
+		// content에 br 붙이기
+		for(int i=0;i<qlist.size();i++) {
+			qlist.get(i).setContent(qlist.get(i).getContent().replace("\r\n", "<br>"));
+		}
+		model.addAttribute("qlist",qlist);
+		
 		return "/product/pro_content";
 	}
 
@@ -266,8 +294,7 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public String pro_gumae_ok(GumaeVO gvo,HttpSession session) {
 		String userid=session.getAttribute("userid").toString();
-		gvo.setUserid(userid);
-		
+		gvo.setUserid(userid);		
 			
 		// 주문번호생성 => 아이디+4자리
 		// 가장 높은 주문번호를 가져오기
@@ -330,6 +357,47 @@ public class ProductServiceImpl implements ProductService{
 		mapper.wish_cancel(pcode,userid);
 		return "redirect:/product/pro_content?pcode="+pcode;
 	}
+
+	@Override
+	public String qwrite_ok(QuestionVO qvo, HttpSession session) {
+		//email 구하기
+		String userid=session.getAttribute("userid").toString();
+		String email=mapper.get_email(userid);
+		qvo.setEmail(email);
+		
+		//qrp 구하기
+		int grp=mapper.get_grp();
+		grp++;
+		qvo.setGrp(grp);		
+		
+		// question 테이블에 입력
+		mapper.qwrite_ok(qvo);
+		return "redirect:/product/pro_content?pcode="+qvo.getPcode();
+	}
+
+	@Override
+	public String cart_view(HttpSession session, Model model) {
+		String userid=session.getAttribute("userid").toString();
+		ArrayList<CartVO> clist=mapper.cart_view(userid);
+		model.addAttribute("clist",clist);
+		
+		return "/product/cart_view";
+	}
+
+	@Override
+	public String find_view(HttpServletRequest request, Model model) {
+		String keyword=request.getParameter("keyword");
+		ArrayList<ProductVO> klist=mapper.find_view(keyword);
+		System.out.println("키워드 :" + keyword);
+		model.addAttribute("klist",klist);
+		model.addAttribute("keyword",keyword);
+		return "/product/find_view";
+	}
+
+	
+	
+
+	
 
 }
 

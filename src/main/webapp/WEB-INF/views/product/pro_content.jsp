@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>     
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>     
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -66,6 +67,27 @@
       clear:both; /* float기능 해제 */
       width:1000px;
       margin-bottom:30px;
+      margin-top:50px;
+    }
+    
+    section #review {
+      width:1000px;
+      /* height:500px; */
+      margin-bottom:30px;
+      margin-top:20px;
+    }
+    section #review .pers div {
+      padding-top:5px; /* 사용자별 상품평의 div 태그의 간격 조절 */
+    }
+    section #inq {
+      width:1000px;
+      margin-bottom:30px;
+      margin-top:20px;
+    }
+    section #an {
+      width:1000px;
+      margin-bottom:30px;
+      margin-top:20px;
     }
     section #cart_msg {
       position:absolute;
@@ -106,14 +128,14 @@
     });
     function wish_add()  // 사용자 아이디, 상품코드를 wish테이블에 저장
     {
-    	if(confirm("wish테이블에 상품을 추가할까요?")) // 확인(true), 취소(false)
+    	if(confirm("wish리스트에 상품을 추가할까요?")) // 확인(true), 취소(false)
     	{
     		var chk=new XMLHttpRequest();
         	chk.onload=function()
         	{
         		//alert(chk.responseText);
         		if(chk.responseText=="0")
-        			alert("wish테이블에 저장");
+        			alert("wish리스트에 저장");
         		else
         			alert("내부 오류발생");
         	}
@@ -126,8 +148,8 @@
     
     function cart_add()  // 사용자 아이디, 상품코드,수량 cart테이블에 저장
     {
-    	var x=event.clientX-100;
-    	var y=event.clientY-100; 
+    	var x=event.clientX-75;
+    	var y=event.clientY-120; 
     	var chk=new XMLHttpRequest();
     	var su=document.pro.su.value;
     	chk.onload=function()
@@ -233,16 +255,219 @@
         </div>   <!-- 위시, 장바구니, 구매 -->
       </div>
     </article>
-    <article id="a2">
+  </form>
+    <div id="pcmenu">
+      <ul>
+        <li class="pcsub" onclick="change_sub(0)"> <a href="#a2">상품상세</a> </li><li class="pcsub" onclick="change_sub(1)"> <a href="#review">상품평</a> </li><li class="pcsub" onclick="change_sub(2)"> <a href="#ing">상품문의</a> </li><li class="pcsub" onclick="change_sub(3)"> <a href="#an">배송/교환/반품안내</a> </li>
+      </ul>
+    </div>
+    <script>
+     function change_sub(n)
+     {
+    	 // 배경색 #f7f7f7, 밑줄 생기기
+    	 var pcsub=document.getElementsByClassName("pcsub");
+    	 var len=pcsub.length;
+    	 for(i=0;i<len;i++)
+    	 {
+    		 pcsub[i].style.background="#f7f7f7";
+    		 pcsub[i].style.borderBottom="1px solid #cccccc";
+    	 }	 
+    	 // 선택된 li  배경색 : white, 밑줄 X
+    	 pcsub[n].style.background="white";
+		 pcsub[n].style.borderBottom="none";
+     }
+     
+     function pcmenu_stop() // 스크롤이 특정값이 될경우 #pcmenu를 position:fixed , relative로 변경 
+     {
+    	 var top=document.documentElement.scrollTop;
+    	 if(top>710)
+    	{
+    		 document.getElementById("pcmenu").style.position="fixed";
+    		 document.getElementById("pcmenu").style.top="0px";
+    	} else {
+    		 document.getElementById("pcmenu").style.position="relative";
+    	}
+     }
+     window.onscroll=pcmenu_stop;
+     
+     function qwrite(){
+    	 document.getElementById("qlayer").style.visibility="visible";
+    	 position_chg();
+     }
+     
+     function position_chg()
+     {
+    	 var x=innerWidth; // 브라우저 가로
+    	 var y=innerHeight; // 브라우저 세로
+    	 var left=(x/2)-220; // 220은 레이어/2
+    	 var top=(y/2)-125+document.documentElement.scrollTop; // 125는 레이어/2
+    	 document.getElementById("qlayer").style.left=left+"px";
+    	 document.getElementById("qlayer").style.top=top+"px";
+     }
+     window.onresize=position_chg;
+    </script>
+    <style>    
+      section #pcmenu {
+        width:1000px;
+        height:60px;
+        margin:auto;
+        position:relative;
+      }
+      section #pcmenu ul {
+        padding-left:0px;
+      }
+      section #pcmenu ul li {
+        list-style-type:none;
+        display:inline-block;
+        width:243px;
+        height:38px;
+        text-align:center;
+        border:1px solid #cccccc;
+        border-top:3px solid #cccccc;
+        padding-top:12px;
+        margin-left:0px;
+        border-right:none;
+        background:#f7f7f7;
+        cursor:pointer;
+       }
+      section #pcmenu ul li:last-child {
+        border-right:1px solid #cccccc;
+      }
+      section #pcmenu ul li:first-child {
+        background:white;
+        border-bottom:none;
+      }  
+      section #qlayer {
+      position:absolute;
+      visibility:hidden;
+      width:440px;
+      heigth:250px;
+      border:1px solid #cccccc;
+      background:white;      
+      }
+      
+      section article {
+      border-top:2px solid #cccccc;
+      padding-top:50px;
+      }
+      
+      section #qq{
+      border:1px solid #888888;
+      background:#888888;
+      color:white;
+      }
+      
+      section #qq2{
+      border:1px solid blue;
+      background:blue;
+      color:white;
+      }
+      
+      section #qtable td{
+       height*:30px;
+       
+      }
+            
+    </style>
+    
+    <article id="a2"> <!-- 제품 상세 -->
       <img src="../resources/img/${pvo.cimg}" width="1000"> 
     </article>
+   <c:if test="${!empty rlist }"> 
+    <article id="review"> <!--  상품평  : pro_content요청시  review테이블에서 현재 상품pcode의 내용을 전부 가져오기-->
+       <h2> 상 품 평 </h2>
+       <div class="pers">
+         <!-- 총별점 출력하는 부분 -->
+         <c:forEach begin="1" end="${chong_star}">
+          <img src="../resources/main/star1.png">
+         </c:forEach>
+         <c:forEach begin="1" end="${5-chong_star}">
+          <img src="../resources/main/star2.png">
+         </c:forEach>
+   
+         <!-- 사용자별 상품평 출력하기 -->
+         <c:forEach items="${rlist}" var="rvo">
+          <div style="margin-top:30px;"> ${fn:substring(rvo.userid,0,4)}** </div>
+          <!-- 
+               ${ fn:substring(rvo.userid,0,4)      }
+           -->
+          <div> 
+            <c:forEach begin="1" end="${rvo.star}">
+             <img src="../resources/main/star1.png" width="15">
+            </c:forEach>
+            <c:forEach begin="1" end="${5-rvo.star}">
+             <img src="../resources/main/star2.png" width="15">
+            </c:forEach>
+          </div>
+          <div> <b> ${rvo.title} </b></div>
+          <div> ${rvo.content}</div>
+          <p>
+         </c:forEach>
+         
+       </div>
+    </article>
+   </c:if>
+    <article id="inq">  <!-- 상품문의 -->
+     <h2>상품 문의 <span style="font-size:13px" onclick="qwrite()">문의하기</span></h2>
+	   <c:forEach items="${qlist}" var="qvo">
+		<table width="900" style="border-top:2px solide #cccccc" align="center">
+			<!-- 질문인지 답변이지 출력 -->
+			<c:if test="${qvo.seq==1}">
+			<span id="qq">질문</span>
+			</c:if>
+			<c:if test="${qvo.seq==2}">
+			<span id="qq2">답변</span>
+			</c:if>
+			<tr>
+				<td width="700">${qvo.email}</td>
+				<td>${qvo.writeday}</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+				${qvo.ptitle}
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+				${qvo.content}
+				</td>
+			</tr>
+		</table>
+	   </c:forEach>  
+    </article>
+    <article id="an">  <!-- 배송/교환/안내 -->
     
-    </form>
+    </article>
     
-    <div id="cart_msg">
+    <div id="cart_msg"> <!-- 레이어 -->
        장바구니로 이동!! <p>
-       <input type="button" value="이동" onclick="location='../product/cart_view'">
+       <input type="button" value="이동" onclick="location='../mypage/cart'">
        <input type="button" value="계속쇼핑" onclick="document.getElementById('cart_msg').style.visibility='hidden'">
+    </div>
+    
+    <div id="qlayer"> <!-- 문의하기 레이어 -->
+    	<form method="post" action="qwrite_ok">
+    	<input type="hidden" name="seq" value="1">
+    	<input type="hidden" name="pcode" value="${pvo.pcode}">
+    	<table width="500" align="center">
+    		<caption><h3>상품 문의</h3></caption>
+    		<tr>
+    			<td>상품정보</td>
+    			<td><input type="text" name="ptitle" value="${pvo.title}" readonly style="border:none;outline:none;font-size:15px"></td>
+    		</tr>
+    		<tr>
+    			<td>문의내용</td>
+    			<td><textarea cols="30" rows="6" name="content"></textarea></td>
+    		</tr>
+    		<tr>
+    			<td colspan="2" align="center">
+    				<input type="submit" value="문의작성">
+    				<input type="button" value="취소">
+    				
+    			</td>
+    		</tr>
+    	</table>
+    	</form>
     </div>
   </section>
 </body>

@@ -15,6 +15,7 @@ import kr.co.shop.service.ProductService;
 import kr.co.shop.vo.BaesongVO;
 import kr.co.shop.vo.GumaeVO;
 import kr.co.shop.vo.ProductVO;
+import kr.co.shop.vo.QuestionVO;
 
 @Controller
 public class ProductController {
@@ -76,6 +77,12 @@ public class ProductController {
 	public void cart_add(HttpSession session,HttpServletRequest request,PrintWriter out)
 	{
 		service.cart_add(session,request,out);
+	}
+	
+	@RequestMapping("/product/cart_view")
+	public String cart_view(HttpSession session,Model model)
+	{
+		return service.cart_view(session,model);
 	}
 	
 	@RequestMapping("/product/pro_gumae")
@@ -145,4 +152,18 @@ public class ProductController {
 	{
 		return "/product/test";
 	}
+	
+	@RequestMapping("/product/qwrite_ok")
+	public String qwrite_ok(QuestionVO qvo, HttpSession session)
+	{
+		return service.qwrite_ok(qvo, session);
+	}
+	
+	@RequestMapping("/product/find_view")
+	public String find_view(HttpServletRequest request,Model model)
+	{
+		return service.find_view(request, model);
+	}
+	
+	
 }    

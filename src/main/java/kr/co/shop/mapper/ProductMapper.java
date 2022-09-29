@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import kr.co.shop.vo.BaesongVO;
+import kr.co.shop.vo.CartVO;
 import kr.co.shop.vo.DaeVO;
 import kr.co.shop.vo.GumaeVO;
 import kr.co.shop.vo.JungVO;
@@ -14,6 +15,7 @@ import kr.co.shop.vo.MemberVO;
 import kr.co.shop.vo.SoVO;
 import kr.co.shop.vo.ProductVO;
 import kr.co.shop.vo.ProductViewVO;
+import kr.co.shop.vo.QuestionVO;
 
 public interface ProductMapper {
     public ArrayList<DaeVO> pro_write();
@@ -45,5 +47,14 @@ public interface ProductMapper {
     
     public void wish_cancel(String pcode, String userid);
     public void cart_del(String pcode,String userid);
- 
+    public String get_email(String userid);
+    public int get_grp();
+    public void qwrite_ok(QuestionVO qvo);
+    public ArrayList<QuestionVO> get_question(String pcode);
+    public ArrayList<CartVO> cart_view(String userid);
+    public ArrayList<ProductVO> pro_list_new();
+    public ArrayList<ProductVO> pro_list_manysell();
+    public ArrayList<ProductVO> pro_list_sale();
+    public ArrayList<ProductVO> find_view(String keyword);
+    
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import kr.co.shop.vo.CartVO;
 import kr.co.shop.vo.GumaeVO;
 import kr.co.shop.vo.MemberVO;
+import kr.co.shop.vo.ReviewVO;
 import kr.co.shop.vo.WishVO;
 
 public interface MypageMapper {
@@ -21,4 +22,11 @@ public interface MypageMapper {
    public void cart_del(String id);
    
    public ArrayList<GumaeVO> myjumun(String userid);
+   public void change_state(String id,String state);
+   public void review_ok(ReviewVO rvo);
+   public void gumae_hugi(int id);
+   public ArrayList<ReviewVO> myreview(String userid);
+   public void review_del(String id);
+   public void change_hugi(String gid);
+   public ReviewVO review_update(String id);
 }

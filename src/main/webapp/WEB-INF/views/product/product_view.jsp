@@ -48,8 +48,8 @@
    </table>
    
    <!-- list에서 하나의 객체만 가져와서 pvo로 전달 -->
-   <c:set var="pvo" value="${list.get(0)}"/> 
-   
+ <c:set var="pvo" value="${list.get(0)}"/>  
+
    <!-- 배송지 정보 -->
    <table width="900" align="center">
      <caption> <h3> 배송지 정보 </h3> </caption>

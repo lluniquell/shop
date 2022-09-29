@@ -11,9 +11,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import kr.co.shop.mapper.MypageMapper;
+import kr.co.shop.util.Util;
 import kr.co.shop.vo.CartVO;
 import kr.co.shop.vo.GumaeVO;
 import kr.co.shop.vo.MemberVO;
+import kr.co.shop.vo.ReviewVO;
 import kr.co.shop.vo.WishVO;
 
 @Service
@@ -141,7 +143,65 @@ public class MypageServiceImpl implements MypageService {
 		String userid=session.getAttribute("userid").toString();
 		ArrayList<GumaeVO> list=mapper.myjumun(userid);
 		model.addAttribute("list",list);
+		
+		System.out.println(Util.getState(1));
+		
 		return "/mypage/myjumun";
+	}
+
+	@Override
+	public String change_state(HttpServletRequest request) {
+		String id=request.getParameter("id");
+		String state=request.getParameter("state");
+		mapper.change_state(id,state);
+		return "redirect:/mypage/myjumun";
+	}
+
+	@Override
+	public String review(HttpServletRequest request, Model model) {
+		String pcode=request.getParameter("pcode");
+		String gid=request.getParameter("gid");
+		model.addAttribute("pcode",pcode);
+		model.addAttribute("gid",gid);
+		return "/mypage/review";
+	}
+
+	@Override
+	public String review_ok(ReviewVO rvo,HttpSession session) {
+		rvo.setUserid(session.getAttribute("userid").toString());
+		mapper.review_ok(rvo);
+		// gumae테이블의 hugi필드를 1로 변경
+		mapper.gumae_hugi(rvo.getGid());
+		return "redirect:/mypage/myreview";
+		                       // 나의 글확인
+	}
+
+	@Override
+	public String myreview(HttpSession session, Model model) {
+		String userid=session.getAttribute("userid").toString();
+		ArrayList<ReviewVO> rlist=mapper.myreview(userid);
+		model.addAttribute("rlist",rlist);
+		return "/mypage/myreview";
+	}
+
+	@Override
+	public String review_del(HttpServletRequest request) {
+		String id=request.getParameter("id");
+		String gid=request.getParameter("gid");
+		// 삭제
+		mapper.review_del(id);
+		// gumae테이블의 hugi필드를 다시 0으로
+		mapper.change_hugi(gid);
+		
+		return "redirect:/mypage/myreview";
+	}
+
+	@Override
+	public String review_update(HttpServletRequest request, Model model) {
+		String id=request.getParameter("id");
+		ReviewVO rvo=mapper.review_update(id);
+		model.addAttribute("rvo",rvo);
+		return "/mypage/review_update";
 	}
 
 }

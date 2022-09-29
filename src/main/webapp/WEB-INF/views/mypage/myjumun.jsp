@@ -30,7 +30,7 @@
 </head>
 <body> <!-- myjumun.jsp -->
   <section>
-    <table width="900" align="center" cellspacing="0">
+    <table width="980" align="center" cellspacing="0">
       <caption> <h3> 주 문 내 역</h3> </caption>
       <tr align="center">
         <td> 주문 일자 </td>
@@ -40,6 +40,7 @@
         <td> 결제 금액 </td>
         <td> 상 태 </td>
         <td> 변 경 </td>
+        <td> 상품평 </td>
       </tr>
       
      <c:forEach items="${list}" var="gvo">
@@ -80,25 +81,34 @@
         <td> ${state} </td>
         <td> 
           <!-- 취소신청버튼 -->
-         <c:if test="${gvo.state==0}"> 
-          <input type="button" value="취소신청" onclick="location='change_state?state=1&id=${gvo.id}'"> <br>
+         <c:if test="${gvo.state==0}">  
+          <input type="button" value="취소신청" onclick="location='change_state?state=1&id=${gvo.id}'"> <br>  <!-- state를 1로 변경 -->
          </c:if>
           <!-- 취소철회버튼 -->
          <c:if test="${gvo.state==1}">
-          <input type="button" value="취소철회" onclick="location='change_state?state=0&id=${gvo.id}'"> <br>
+          <input type="button" value="취소철회" onclick="location='change_state?state=0&id=${gvo.id}'"> <br>  <!-- state를 0로 변경 -->
          </c:if>
           <!-- 반품신청버튼 -->
-         <c:if test="${gvo.state==3 || gvo.state==4}">
-          <input type="button" value="반품신청" onclick="location='change_state?state=5&id=${gvo.id}'"> <br>
+         <c:if test="${gvo.state==3 || gvo.state==4}"> 
+          <input type="button" value="반품신청" onclick="location='change_state?state=5&id=${gvo.id}'"> <br>   <!-- state를 5로 변경 -->
          </c:if>
           <!-- 교환신청버튼 -->
          <c:if test="${gvo.state==0 || gvo.state==1 || gvo.state==3 || gvo.state==4}">
-          <input type="button" value="교환신청" onclick="location='change_state?state=7&id=${gvo.id}'"> <br>
+          <input type="button" value="교환신청"  onclick="location='change_state?state=7&id=${gvo.id}'"> <br>    <!-- state를 7로 변경 -->
          </c:if>
-         
-         <c:if test="${gvo.state==4}">
-          <input type="button" value="리뷰쓰기" onclick="location='change_state?state=7&id=${gvo.id}'"> <br>
-         </c:if>
+        </td>
+        <td>
+          <c:if test="${gvo.state==4}"> 
+             <c:if test="${gvo.hugi==0}">
+               <input type="button" value="상품평쓰기" onclick="location='review?pcode=${gvo.pcode}&gid=${gvo.id}'">
+             </c:if>
+             <c:if test="${gvo.hugi==1}">
+               <input type="button" value="상품평보기">
+             </c:if>
+          </c:if> 
+          <c:if test="${gvo.state!=4}"> 
+           <input type="button" value="상품평쓰기" disabled>
+          </c:if> 
         </td>
       </tr>
      </c:forEach> 

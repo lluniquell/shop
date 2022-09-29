@@ -67,8 +67,8 @@
   </select>
   
   <insert id="juso_add_ok" parameterType="kr.co.shop.vo.MemberVO">
-    insert into baesong(name,zip,juso1,juso2,phone,userid)
-    values(#{name},#{zip},#{juso1},#{juso2},#{phone},#{userid})
+    insert into baesong(name,zip,juso,juso_etc,phone,userid)
+    values(#{name},#{zip},#{juso},#{juso_etc},#{phone},#{userid})
   </insert>
   
   <select id="baesong_edit" resultType="kr.co.shop.vo.BaesongVO">
@@ -76,8 +76,8 @@
   </select>
   
   <update id="baesong_edit_ok" parameterType="kr.co.shop.vo.BaesongVO">
-    update baesong set name=#{name}, zip=#{zip}, juso1=#{juso1},
-    juso2=#{juso2}, phone=#{phone} where id=#{id}
+    update baesong set name=#{name}, zip=#{zip}, juso=#{juso},
+    juso_etc=#{juso_etc}, phone=#{phone} where id=#{id}
   </update>
   
   <insert id="pro_gumae_ok" parameterType="kr.co.shop.vo.GumaeVO">
@@ -92,7 +92,7 @@
   
   <select id="product_view" resultType="kr.co.shop.vo.ProductViewVO">
    select g.* , p.pimg, p.title,p.price,
-   b.name,b.phone as hphone,b.juso1,b.juso2,b.chuga  
+   b.name,b.phone as hphone,b.juso,b.juso_etc,b.chuga  
    from product as p, baesong as b, gumae as g
    where g.pcode=p.pcode and g.bae_id=b.id and jumuncode=#{param1}
   </select>
@@ -109,6 +109,46 @@
      delete from cart where pcode=#{param1} and userid=#{param2}
   </delete>
   
+  <select id="get_email" resultType="String">
+  	select email from member where userid=#{param1}
+  </select>
+  
+  <select id="get_grp" resultType="Integer">
+  	select ifnull(max(grp),0) from question
+  </select>
+  
+  <insert id="qwrite_ok" parameterType="kr.co.shop.vo.QuestionVO">
+  	insert into question(email,ptitle,content,seq,grp,writeday,pcode)
+  	values(#{email},#{ptitle},#{content},#{seq},#{grp},now(),#{pcode})
+  </insert>
+  
+  <select id="get_question" resultType="kr.co.shop.vo.QuestionVO">
+  	select * from question where pcode=#{param1} order by grp desc, seq asc
+  </select>
+  
+  <select id="cart_view" resultType="kr.co.shop.vo.CartVO">
+  	select * from cart where userid=#{param1} 
+  </select>
+ 
+  <select id="pro_list_new" resultType="kr.co.shop.vo.ProductVO">
+     select * , adddate(curdate(),baeday) as baeday2 ,
+     dayofweek(adddate(curdate(),baeday)) as yoil 
+    from product order by writeday limit 5
+  </select>
+  
+  <select id="pro_list_manysell" resultType="kr.co.shop.vo.ProductVO">
+   select g.pcode, count(g.su) as sellsu,p.* from gumae as g, product as p where g.pcode=p.pcode group by g.pcode order by sellsu desc limit 5
+  </select>
+  
+   <select id="pro_list_sale" resultType="kr.co.shop.vo.ProductVO">
+   select * from product order by halin desc limit 5
+  </select>
+  
+    <select id="find_view" resultType="kr.co.shop.vo.ProductVO">
+     select * , adddate(curdate(),baeday) as baeday2 ,
+     dayofweek(adddate(curdate(),baeday)) as yoil 
+    from product where title like concat('%',#{param1},'%')  
+  </select>
 </mapper>  
 
 

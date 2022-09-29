@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import kr.co.shop.vo.BaesongVO;
 import kr.co.shop.vo.GumaeVO;
 import kr.co.shop.vo.ProductVO;
+import kr.co.shop.vo.QuestionVO;
 
 public interface ProductService {
    public String pro_write(Model model);
@@ -33,4 +34,8 @@ public interface ProductService {
    public String product_view(HttpServletRequest request,Model model);
    
    public String wish_cancel(HttpSession session,HttpServletRequest request);
+   public String qwrite_ok(QuestionVO qvo, HttpSession session);
+   public String cart_view(HttpSession session,Model model);
+   public String index(Model model);
+   public String find_view(HttpServletRequest request, Model model);
 }   

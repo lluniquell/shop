@@ -12,16 +12,21 @@
 	margin:auto;
 	text-align:center;
 	margin-top:60px;
-	}	
+	}
+	
+	input{
+	width:304px;
+	}
+	
 </style>
 </head>
 <body>
 	<section>
 		<form method="post" action="cwrite_ok">
 		<h2 align="center"> 1:1 상담하기</h2>
-		<div><input type="text" name="title" placeholder="제목"></div>
-		<div><textarea cols="40" name="content"></textarea></div>
-		<div><input type="submit" value="문의"></div>
+		<div><input type="text" name="title" placeholder="제목"></div><br>
+		<div><textarea cols="40" rows="5" name="content"></textarea></div><p>
+		<div><input type="submit" value="문의"></div><br><p>
 	</form>
 	</section>
 

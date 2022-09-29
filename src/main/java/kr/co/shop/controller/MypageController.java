@@ -7,11 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import kr.co.shop.service.MypageService;
 import kr.co.shop.vo.MemberVO;
+import kr.co.shop.vo.ReviewVO;
 
 @Controller
 public class MypageController {
@@ -84,6 +84,42 @@ public class MypageController {
 	public String myjumun(HttpSession session, Model model)
 	{
 		return service.myjumun(session,model);
+	}
+	
+	@RequestMapping("/mypage/change_state")
+	public String change_state(HttpServletRequest request)
+	{
+		return service.change_state(request);
+	}
+	
+	@RequestMapping("/mypage/review")
+	public String review(HttpServletRequest request, Model model)
+	{
+		return service.review(request,model);
+	}
+	
+	@RequestMapping("/mypage/review_ok")
+	public String review_ok(ReviewVO rvo,HttpSession session)
+	{
+		return service.review_ok(rvo,session);
+	}
+	
+	@RequestMapping("/mypage/myreview")
+	public String myreview(HttpSession session, Model model)
+	{
+	    return service.myreview(session,model);	
+	}
+	
+	@RequestMapping("/mypage/review_del")
+	public String review_del(HttpServletRequest request)
+	{
+		return service.review_del(request);
+	}
+	
+	@RequestMapping("/mypage/review_update")
+	public String review_update(HttpServletRequest request, Model model)
+	{
+		return service.review_update(request,model);
 	}
 }
 

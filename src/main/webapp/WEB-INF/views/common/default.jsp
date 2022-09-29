@@ -180,7 +180,7 @@
     footer {
        width:1000px;
        height:100px;
-       background:#D941C5;
+       align:center;      
        margin:auto;
     }
   </style>
@@ -250,7 +250,7 @@
    	    });
 	    
    });
-   
+     
    
   </script>
   
@@ -263,7 +263,7 @@
       <div id="right"> X </div>
     </div>  <!-- 간단메시지 -->
     <header> 
-      <div id="left"><a href="../main/index"> CHANNY쑈핑 </a></div>
+      <div id="left"><a href="../main/index"> 다팔아몰 </a></div>
       <div id="right"> 
        <c:if test="${userid == null}">
         <a href="../login/login"> 로그인 </a> 
@@ -273,22 +273,16 @@
           <span id="my" style="display:inline-block;height:34px;">${name}님!!
           <ul id="myinfo">
             <li> <a href="../mypage/myinfo"> 회원정보 수정 </a></li>
-            <li> 주문 조회 </li>
-            <li> 적립금 조회 </li>
-            <li> 나의 글확인 </li>
+            <li> <a href="../mypage/myjumun">주문 조회</a> </li>
+            <li> <a href="../mypage/myreview">나의 글확인</a> </li>
             <li> <a href="../mypage/wish"> wish </a> </li>
             <li> <a href="../mypage/cart"> 장바구니 </a></li>
           </ul>
          </span>
         <a href="../login/logout"> 로그아웃 </a>
-       </c:if> 
-        <a href="#" id="cu"> 고객센터 
-          <ul>
-            <li> 자주하는 질문 </li>
-            <li onclick="location='../member/cwrite'" style="cursor:pointer;">1:1 상담 </li>
-            <li> 긴급 상담 </li>
-          </ul>
-        </a>
+       </c:if>        		
+            <span onclick="location='../member/clist'" style="cursor:pointer;"> 고객센터 </span>
+         
         
       </div>
     </header>  <!-- 로고, 로그인,회원가입 -->
@@ -350,8 +344,11 @@
         <li> 이벤트 </li>
         <li>  
           <div id="outer"> 
-            <input type="text" id="search" name="search">
-            <img src="../resources/simg/ss.png" width="24" valign="middle">
+           <form method="post" action="../product/find_view">
+            <input type="text" id="keyword" name="keyword">
+            <input type="image" src="../resources/simg/ss.png" width="24"> 
+          
+            </form>
           </div>
         </li>
       </ul>
@@ -360,6 +357,27 @@
     <decorator:body/>
     
     
-      <footer> 쇼핑몰 관련 정보  </footer>  <!-- 사이트 관련 정보 -->
+<footer>
+	<table>
+		<tr>
+			<td>COMPANY INFO</td>
+		</tr>
+		<tr>
+			<td>회사명</td>
+			<td>다팔아몰</td>
+			<td>주소</td>
+			<td>고양시 일산동구 어딘가</td>
+			<td>대표자</td>
+			<td>장현석</td>
+		</tr>
+		<tr>
+			<td>사업자등록번호</td>
+			<td>123-45-67890</td>
+			<td>전화번호</td>
+			<td>123-4567-8901</td>
+		</tr>
+	
+	</table>      
+</footer>  <!-- 사이트 관련 정보 -->
 </body>
 </html>

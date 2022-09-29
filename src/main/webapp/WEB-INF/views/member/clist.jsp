@@ -23,6 +23,12 @@
 			<td></td>
 		</tr>
 		</c:forEach>
+		
+		<tr>
+			<td colspan="3" align="center"><br>
+				<a href="cwrite">1:1 문의하기</a>
+			</td>
+		</tr>
 	</table>
 
 </section>
